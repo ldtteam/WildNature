@@ -1,0 +1,15 @@
+{
+  "required": false,
+  "package": "com.ldtteam.wildnature.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "wildnature.refmap.json",
+  "mixins": [
+    "ChunkTickMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}
