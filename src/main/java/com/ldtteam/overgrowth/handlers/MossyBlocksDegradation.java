@@ -1,6 +1,6 @@
-package com.ldtteam.wildnature.handlers;
+package com.ldtteam.overgrowth.handlers;
 
-import com.ldtteam.wildnature.utils.Utils;
+import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;

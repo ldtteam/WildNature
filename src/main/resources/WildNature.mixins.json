@@ -1,8 +1,8 @@
 {
   "required": false,
-  "package": "com.ldtteam.wildnature.mixin",
+  "package": "com.ldtteam.overgrowth.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "wildnature.refmap.json",
+  "refmap": "overgrowth.refmap.json",
   "mixins": [
     "ChunkTickMixin"
   ],
