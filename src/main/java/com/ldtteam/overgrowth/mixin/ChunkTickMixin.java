@@ -1,5 +1,6 @@
 package com.ldtteam.overgrowth.mixin;
 
+import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.handlers.ITransformationHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -34,14 +35,21 @@ public abstract class ChunkTickMixin
                 for (int times = 0; times < k; times++)
                 {
                     BlockPos randomPos = this.getBlockRandomPos();
-                    BlockState randomState = levelchunksection.getBlockState(randomPos.getX(), randomPos.getY(), randomPos.getZ());
 
                     for (ITransformationHandler handler : ITransformationHandler.HANDLERS)
                     {
-                        if (handler.transforms(randomState) && handler.ready(chunk.getLevel().getGameTime()))
+                        BlockState randomState = levelchunksection.getBlockState(randomPos.getX(), randomPos.getY(), randomPos.getZ());
+
+                        if (handler.transforms(randomState) && handler.ready(chunk.getLevel().getGameTime() + times))
                         {
-                            handler.transformBlock(randomPos, chunk, sectionId);
-                            break;
+                            try
+                            {
+                                handler.transformBlock(randomPos, chunk, sectionId);
+                            }
+                            catch (final Exception ex)
+                            {
+                                Overgrowth.LOGGER.warn("Oopsy", ex);
+                            }
                         }
                     }
                 }

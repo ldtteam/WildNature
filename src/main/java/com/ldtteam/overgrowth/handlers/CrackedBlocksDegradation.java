@@ -12,12 +12,12 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.minecraft.world.level.block.Block.*;
+import static net.minecraft.world.level.block.Block.UPDATE_ALL_IMMEDIATE;
 
 /**
- * Stonebrick and cobble types to mossy versions.
+ * Cracks stonebrick and other blocks next to lava.
  */
-public class MossyBlocksDegradation implements ITransformationHandler
+public class CrackedBlocksDegradation implements ITransformationHandler
 {
     /**
      * Mapping the transformations.
@@ -26,16 +26,23 @@ public class MossyBlocksDegradation implements ITransformationHandler
     
     static
     {
-        transformationMapping.put(Blocks.STONE_BRICKS, Blocks.MOSSY_STONE_BRICKS);
-        transformationMapping.put(Blocks.STONE_BRICK_STAIRS, Blocks.MOSSY_STONE_BRICK_STAIRS);
-        transformationMapping.put(Blocks.STONE_BRICK_SLAB, Blocks.MOSSY_STONE_BRICK_SLAB);
-        transformationMapping.put(Blocks.STONE_BRICK_WALL, Blocks.MOSSY_STONE_BRICK_WALL);
-        transformationMapping.put(Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE);
-        transformationMapping.put(Blocks.COBBLESTONE_STAIRS, Blocks.MOSSY_COBBLESTONE_STAIRS);
-        transformationMapping.put(Blocks.COBBLESTONE_SLAB, Blocks.MOSSY_COBBLESTONE_SLAB);
-        transformationMapping.put(Blocks.COBBLESTONE_WALL, Blocks.MOSSY_COBBLESTONE_WALL);
+        transformationMapping.put(Blocks.STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS);
+        transformationMapping.put(Blocks.DEEPSLATE_BRICKS, Blocks.CRACKED_DEEPSLATE_BRICKS);
+        transformationMapping.put(Blocks.NETHER_BRICKS, Blocks.CRACKED_NETHER_BRICKS);
+        transformationMapping.put(Blocks.POLISHED_BLACKSTONE_BRICKS, Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS);
+
+        transformationMapping.put(Blocks.CRACKED_STONE_BRICKS, Blocks.COBBLESTONE);
+        transformationMapping.put(Blocks.STONE, Blocks.COBBLESTONE);
+
+        transformationMapping.put(Blocks.STONE_SLAB, Blocks.COBBLESTONE_SLAB);
+        transformationMapping.put(Blocks.STONE_STAIRS, Blocks.COBBLESTONE_STAIRS);
+
+        transformationMapping.put(Blocks.COBBLESTONE_STAIRS, Blocks.AIR);
+        transformationMapping.put(Blocks.COBBLESTONE_SLAB, Blocks.AIR);
+        transformationMapping.put(Blocks.COBBLESTONE, Blocks.AIR);
+
     }
-    
+
     @Override
     public boolean transforms(final BlockState state)
     {
@@ -45,7 +52,7 @@ public class MossyBlocksDegradation implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 104 == 0;
+        return worldTick % 97 == 0;
     }
 
     @Override
@@ -54,11 +61,10 @@ public class MossyBlocksDegradation implements ITransformationHandler
         for (final Direction direction : Direction.values())
         {
             final BlockState relativeState = Utils.getBlockState(chunk, relativePos.relative(direction), chunkSection);
-            if (relativeState.getBlock() == Blocks.WATER)
+            if (relativeState.getBlock() == Blocks.LAVA)
             {
                 final LevelChunkSection section = chunk.getSections()[chunkSection];
                 final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
-
 
                 chunk.getLevel().setBlock(worldPos, transformationMapping.get(Utils.getBlockState(chunk, relativePos, chunkSection).getBlock()).defaultBlockState(), UPDATE_ALL_IMMEDIATE);
                 return;

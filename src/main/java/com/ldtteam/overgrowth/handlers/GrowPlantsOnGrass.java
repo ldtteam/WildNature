@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Grows different type of plants on grass.
  */
-public class GrowPlantsOnGrassHandler implements ITransformationHandler
+public class GrowPlantsOnGrass implements ITransformationHandler
 {
     @Override
     public boolean transforms(final BlockState state)
@@ -30,7 +30,7 @@ public class GrowPlantsOnGrassHandler implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 20 == 0;
+        return worldTick % 101 == 0;
     }
 
     @Override

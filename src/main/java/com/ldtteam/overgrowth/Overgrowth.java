@@ -1,25 +1,31 @@
 package com.ldtteam.overgrowth;
 
-import com.ldtteam.overgrowth.handlers.GrowPlantsOnGrassHandler;
-import com.ldtteam.overgrowth.handlers.ITransformationHandler;
-import com.ldtteam.overgrowth.handlers.MossyBlocksDegradation;
+import com.ldtteam.overgrowth.handlers.*;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
 @Mod("overgrowth")
-public class WildNature
+public class Overgrowth
 {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static final String MOD_ID = "overgrowth";
 
-    public WildNature()
+    public Overgrowth()
     {
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(this.getClass());
-        ITransformationHandler.HANDLERS.add(new GrowPlantsOnGrassHandler());
+        ITransformationHandler.HANDLERS.add(new GrowPlantsOnGrass());
         ITransformationHandler.HANDLERS.add(new MossyBlocksDegradation());
+        ITransformationHandler.HANDLERS.add(new GrowWaterPlants());
+        ITransformationHandler.HANDLERS.add(new GrowMushrooms());
+        ITransformationHandler.HANDLERS.add(new SpiderWebs());
+        ITransformationHandler.HANDLERS.add(new ByeTorch());
+        ITransformationHandler.HANDLERS.add(new DegradeFarmland());
+        ITransformationHandler.HANDLERS.add(new CrackedBlocksDegradation());
+        ITransformationHandler.HANDLERS.add(new CoastDecline());
+        ITransformationHandler.HANDLERS.add(new LavaDry());
     }
 }

@@ -5,25 +5,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.item.BoneMealItem;
-import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-
-import java.util.List;
 
 /**
- * Grows different type of plants on grass.
+ * Grows different type of underwater plants.
  */
 public class GrowWaterPlants implements ITransformationHandler
 {
@@ -36,7 +28,7 @@ public class GrowWaterPlants implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 200 == 0;
+        return worldTick % 102 == 0;
     }
 
     @Override
@@ -45,6 +37,7 @@ public class GrowWaterPlants implements ITransformationHandler
         final BlockState state = Utils.getBlockState(chunk, relativePos, chunkSection);
         final LevelChunkSection section = chunk.getSections()[chunkSection];
         final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
+        final int randomNum = random.nextInt(100);
 
         if (state.getBlock() == Blocks.SEAGRASS)
         {
@@ -58,49 +51,52 @@ public class GrowWaterPlants implements ITransformationHandler
 
             if (!belowState.isCollisionShapeFullBlock(chunk.getLevel(), worldPos.below()))
             {
+                if (randomNum < 5)
+                {
+                    Holder<Biome> holder = chunk.getLevel().getBiome(worldPos);
+                    if (holder.is(BiomeTags.PRODUCES_CORALS_FROM_BONEMEAL))
+                    {
+                        for (final Direction direction : Direction.Plane.HORIZONTAL)
+                        {
+                            final BlockState relativeState = Utils.getBlockState(chunk, relativePos.relative(direction), chunkSection);
+                            if (relativeState.isCollisionShapeFullBlock(chunk.getLevel(), worldPos.relative(direction)))
+                            {
+                                blockstate = Registry.BLOCK.getTag(BlockTags.WALL_CORALS)
+                                               .flatMap((set) -> set.getRandomElement(chunk.getLevel().random))
+                                               .map((blockHolder) -> blockHolder.value().defaultBlockState()).orElse(blockstate);
+                                if (blockstate.hasProperty(BaseCoralWallFanBlock.FACING))
+                                {
+                                    chunk.getLevel().setBlock(worldPos.below(), blockstate.setValue(BaseCoralWallFanBlock.FACING, direction.getOpposite()), 3);
+                                }
+                                return;
+                            }
+                        }
+                    }
+                }
                 return;
             }
 
             Holder<Biome> holder = chunk.getLevel().getBiome(worldPos);
-            if (holder.is(BiomeTags.PRODUCES_CORALS_FROM_BONEMEAL))
+            if (holder.is(BiomeTags.PRODUCES_CORALS_FROM_BONEMEAL) || randomNum < 5)
             {
-                //todo here we can do wall corals!
-                if (i == 0 && p_40635_ != null && p_40635_.getAxis().isHorizontal())
-                {
-                    blockstate = Registry.BLOCK.getTag(BlockTags.WALL_CORALS).flatMap((p_204098_) -> {
-                        return p_204098_.getRandomElement(chunk.getLevel().random);
-                    }).map((p_204100_) -> {
-                        return p_204100_.value().defaultBlockState();
-                    }).orElse(blockstate);
-                    if (blockstate.hasProperty(BaseCoralWallFanBlock.FACING))
-                    {
-                        blockstate = blockstate.setValue(BaseCoralWallFanBlock.FACING, p_40635_);
-                    }
-                }
-                else if (randomsource.nextInt(4) == 0)
-                {
-                    blockstate = Registry.BLOCK.getTag(BlockTags.UNDERWATER_BONEMEALS).flatMap((p_204091_) -> {
-                        return p_204091_.getRandomElement(chunk.getLevel().random);
-                    }).map((p_204095_) -> {
-                        return p_204095_.value().defaultBlockState();
-                    }).orElse(blockstate);
-                }
+                blockstate = Registry.BLOCK.getTag(BlockTags.UNDERWATER_BONEMEALS)
+                                   .flatMap((set) -> set.getRandomElement(chunk.getLevel().random))
+                                   .map((blockHolder) -> blockHolder.value().defaultBlockState()).orElse(blockstate);
             }
 
             if (blockstate.is(BlockTags.WALL_CORALS, (p_204093_) -> p_204093_.hasProperty(BaseCoralWallFanBlock.FACING)))
             {
-                for (int k = 0; !blockstate.canSurvive(chunk.getLevel(), worldPos.below()) && k < 4; ++k)
+                for (int k = 0; !blockstate.canSurvive(chunk.getLevel(), worldPos) && k < 4; ++k)
                 {
-                    blockstate = blockstate.setValue(BaseCoralWallFanBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(randomsource));
+                    blockstate = blockstate.setValue(BaseCoralWallFanBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(chunk.getLevel().getRandom()));
                 }
             }
 
             if (blockstate.canSurvive(chunk.getLevel(), worldPos.below()))
             {
-                BlockState blockstate1 = chunk.getLevel().getBlockState(worldPos.below());
-                if (blockstate1.is(Blocks.WATER) && chunk.getLevel().getFluidState(worldPos.below()).getAmount() == 8)
+                if (state.is(Blocks.WATER) && chunk.getLevel().getFluidState(worldPos).getAmount() == 8)
                 {
-                    chunk.getLevel().setBlock(worldPos.below(), blockstate, 3);
+                    chunk.getLevel().setBlock(worldPos, blockstate, 3);
                 }
             }
         }
