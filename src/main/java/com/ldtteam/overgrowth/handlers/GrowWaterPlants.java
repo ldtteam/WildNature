@@ -92,7 +92,7 @@ public class GrowWaterPlants implements ITransformationHandler
                 }
             }
 
-            if (blockstate.canSurvive(chunk.getLevel(), worldPos.below()))
+            if (blockstate.canSurvive(chunk.getLevel(), worldPos))
             {
                 if (state.is(Blocks.WATER) && chunk.getLevel().getFluidState(worldPos).getAmount() == 8)
                 {

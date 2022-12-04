@@ -1,6 +1,9 @@
 package com.ldtteam.overgrowth;
 
 import com.ldtteam.overgrowth.handlers.*;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,5 +30,10 @@ public class Overgrowth
         ITransformationHandler.HANDLERS.add(new CrackedBlocksDegradation());
         ITransformationHandler.HANDLERS.add(new CoastDecline());
         ITransformationHandler.HANDLERS.add(new LavaDry());
+        ITransformationHandler.HANDLERS.add(new NightCampfire());
+        ITransformationHandler.HANDLERS.add(new SandToSandstone());
+        ITransformationHandler.HANDLERS.add(new UndoPath());
+
+        Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(EntityHandling.class);
     }
 }

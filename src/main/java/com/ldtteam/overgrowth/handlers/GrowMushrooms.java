@@ -53,7 +53,7 @@ public class GrowMushrooms implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 95 == 0;
+        return worldTick % 130 == 0;
     }
 
     @Override

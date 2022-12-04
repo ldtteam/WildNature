@@ -13,12 +13,12 @@ import static net.minecraft.world.level.block.Block.UPDATE_ALL_IMMEDIATE;
 /**
  * Lava dries up.
  */
-public class LavaDry implements ITransformationHandler
+public class SandToSandstone implements ITransformationHandler
 {
     @Override
     public boolean transforms(final BlockState state)
     {
-        return state.getBlock() == Blocks.LAVA;
+        return state.getBlock() == Blocks.ANVIL;
     }
 
     @Override
@@ -30,22 +30,20 @@ public class LavaDry implements ITransformationHandler
     @Override
     public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection)
     {
-        int lavaCount = 0;
-        for (final Direction direction : Direction.values())
-        {
-            final BlockState relativeState = Utils.getBlockState(chunk, relativePos.relative(direction), chunkSection);
-            if (relativeState.getBlock() == Blocks.LAVA || relativeState.getBlock() == Blocks.NETHERRACK)
-            {
-                lavaCount++;
-            }
-        }
-
-        if (lavaCount < 5)
+        final BlockState relativeState = Utils.getBlockState(chunk, relativePos.below(), chunkSection);
+        if (relativeState.getBlock() == Blocks.SAND)
         {
             final LevelChunkSection section = chunk.getSections()[chunkSection];
-            final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
+            final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos).below();
 
-            chunk.getLevel().setBlock(worldPos, Blocks.COBBLESTONE.defaultBlockState(), UPDATE_ALL_IMMEDIATE);
+            chunk.getLevel().setBlock(worldPos, Blocks.SANDSTONE.defaultBlockState(), UPDATE_ALL_IMMEDIATE);
+        }
+        else if (relativeState.getBlock() == Blocks.RED_SAND)
+        {
+            final LevelChunkSection section = chunk.getSections()[chunkSection];
+            final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos).below();
+
+            chunk.getLevel().setBlock(worldPos, Blocks.RED_SANDSTONE.defaultBlockState(), UPDATE_ALL_IMMEDIATE);
         }
     }
 }
