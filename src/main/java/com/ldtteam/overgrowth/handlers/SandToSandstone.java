@@ -24,11 +24,11 @@ public class SandToSandstone implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 103 == 0;
+        return worldTick % 13 == 0;
     }
 
     @Override
-    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection)
+    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
         final BlockState relativeState = Utils.getBlockState(chunk, relativePos.below(), chunkSection);
         if (relativeState.getBlock() == Blocks.SAND)

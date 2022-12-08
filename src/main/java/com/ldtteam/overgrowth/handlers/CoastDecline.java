@@ -40,11 +40,11 @@ public class CoastDecline implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 99 == 0;
+        return worldTick % 18 == 0;
     }
 
     @Override
-    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection)
+    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
         for (final Direction direction : Direction.Plane.HORIZONTAL)
         {

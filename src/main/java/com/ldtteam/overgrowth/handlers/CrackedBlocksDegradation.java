@@ -52,11 +52,11 @@ public class CrackedBlocksDegradation implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 97 == 0;
+        return worldTick % 17 == 0;
     }
 
     @Override
-    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection)
+    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
         for (final Direction direction : Direction.values())
         {
@@ -66,7 +66,7 @@ public class CrackedBlocksDegradation implements ITransformationHandler
                 final LevelChunkSection section = chunk.getSections()[chunkSection];
                 final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
 
-                chunk.getLevel().setBlock(worldPos, transformationMapping.get(Utils.getBlockState(chunk, relativePos, chunkSection).getBlock()).defaultBlockState(), UPDATE_ALL_IMMEDIATE);
+                chunk.getLevel().setBlock(worldPos, transformationMapping.get(input.getBlock()).withPropertiesOf(input), UPDATE_ALL_IMMEDIATE);
                 return;
             }
         }

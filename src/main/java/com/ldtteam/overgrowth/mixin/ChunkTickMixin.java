@@ -24,27 +24,31 @@ public abstract class ChunkTickMixin
     @Inject(method = "tickChunk", at = @At("HEAD"))
     public void tickChunk(final LevelChunk chunk, final int k, final CallbackInfo ci)
     {
-        if (k > 0)
+        if (k <= 0 || chunk.getLevel().getGameTime() != 0 && chunk.getLevel().getRandom().nextInt(20) != 1)
         {
-            LevelChunkSection[] chunkSections = chunk.getSections();
+            return;
+        }
 
-            for (int sectionId = 0; sectionId < chunkSections.length; sectionId++)
+        LevelChunkSection[] chunkSections = chunk.getSections();
+
+        for (int sectionId = 0; sectionId < chunkSections.length; sectionId++)
+        {
+            LevelChunkSection levelchunksection = chunkSections[sectionId];
+
+            for (int times = 0; times < k; times++)
             {
-                LevelChunkSection levelchunksection = chunkSections[sectionId];
-
-                for (int times = 0; times < k; times++)
+                if (chunk.getLevel().getRandom().nextInt(20) == 1)
                 {
-                    BlockPos randomPos = this.getBlockRandomPos();
-
+                    final BlockPos randomPos = this.getBlockRandomPos();
                     for (ITransformationHandler handler : ITransformationHandler.HANDLERS)
                     {
                         BlockState randomState = levelchunksection.getBlockState(randomPos.getX(), randomPos.getY(), randomPos.getZ());
 
-                        if (handler.transforms(randomState) && handler.ready(chunk.getLevel().getGameTime() + times))
+                        if (handler.transforms(randomState) && handler.ready(chunk.getLevel().getGameTime() + times, chunk))
                         {
                             try
                             {
-                                handler.transformBlock(randomPos, chunk, sectionId);
+                                handler.transformBlock(randomPos, chunk, sectionId, randomState);
                             }
                             catch (final Exception ex)
                             {

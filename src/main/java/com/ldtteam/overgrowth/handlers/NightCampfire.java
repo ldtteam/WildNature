@@ -20,11 +20,11 @@ public class NightCampfire implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 99 == 0;
+        return worldTick % 11 == 0;
     }
 
     @Override
-    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection)
+    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
         final BlockState relativeState = Utils.getBlockState(chunk, relativePos.below(), chunkSection);
         if (relativeState.getBlock() == Blocks.HAY_BLOCK)

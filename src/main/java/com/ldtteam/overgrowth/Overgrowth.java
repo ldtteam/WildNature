@@ -33,6 +33,8 @@ public class Overgrowth
         ITransformationHandler.HANDLERS.add(new NightCampfire());
         ITransformationHandler.HANDLERS.add(new SandToSandstone());
         ITransformationHandler.HANDLERS.add(new UndoPath());
+        ITransformationHandler.HANDLERS.add(new MuddyRain());
+        ITransformationHandler.HANDLERS.add(new MudDry());
 
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(EntityHandling.class);
     }

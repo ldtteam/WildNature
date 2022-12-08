@@ -24,13 +24,13 @@ public class ByeTorch implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 199 == 0;
+        return worldTick % 19 == 0;
     }
 
     @Override
-    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection)
+    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
         final BlockPos worldPos = Utils.getWorldPos(chunk, chunk.getSections()[chunkSection], relativePos);
-        chunk.getLevel().destroyBlock(worldPos, true);
+        chunk.getLevel().destroyBlock(worldPos, false);
     }
 }

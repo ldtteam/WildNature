@@ -39,11 +39,11 @@ public class SpiderWebs implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 105 == 0;
+        return worldTick % 15 == 0;
     }
 
     @Override
-    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection)
+    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
         for (final Direction direction : Direction.values())
         {

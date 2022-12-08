@@ -28,13 +28,13 @@ public class GrowPlantsOnGrass implements ITransformationHandler
     }
 
     @Override
-    public boolean ready(final long worldTick)
+    public boolean ready(final long worldTick, final LevelChunk chunk)
     {
-        return worldTick % 101 == 0;
+        return chunk.getLevel().isRaining() ? worldTick % 6 == 0 : worldTick % 11 == 0;
     }
 
     @Override
-    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection)
+    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
         final BlockState upState = Utils.getBlockState(chunk, relativePos.above(), chunkSection);
         if (upState.isAir())

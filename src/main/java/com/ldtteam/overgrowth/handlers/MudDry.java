@@ -11,41 +11,41 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import static net.minecraft.world.level.block.Block.UPDATE_ALL_IMMEDIATE;
 
 /**
- * Lava dries up.
+ * Mud dries up
  */
-public class LavaDry implements ITransformationHandler
+public class MudDry implements ITransformationHandler
 {
     @Override
     public boolean transforms(final BlockState state)
     {
-        return state.getBlock() == Blocks.LAVA;
+        return state.getBlock() == Blocks.MUD;
     }
 
     @Override
-    public boolean ready(final long worldTick)
+    public boolean ready(final long worldTick, final LevelChunk chunk)
     {
-        return worldTick % 13 == 0;
+        return !chunk.getLevel().isRaining() && worldTick % 17 == 0;
     }
 
     @Override
     public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
-        int lavaCount = 0;
+        int waterCount = 0;
         for (final Direction direction : Direction.values())
         {
             final BlockState relativeState = Utils.getBlockState(chunk, relativePos.relative(direction), chunkSection);
-            if (relativeState.getBlock() == Blocks.LAVA || relativeState.getBlock() == Blocks.NETHERRACK)
+            if (relativeState.getBlock() == Blocks.WATER || relativeState.getBlock() == Blocks.MUD)
             {
-                lavaCount++;
+                waterCount++;
             }
         }
 
-        if (lavaCount < 5)
+        if (waterCount < 3)
         {
             final LevelChunkSection section = chunk.getSections()[chunkSection];
             final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
 
-            chunk.getLevel().setBlock(worldPos, Blocks.COBBLESTONE.defaultBlockState(), UPDATE_ALL_IMMEDIATE);
+            chunk.getLevel().setBlock(worldPos, Blocks.DIRT.defaultBlockState(), UPDATE_ALL_IMMEDIATE);
         }
     }
 }

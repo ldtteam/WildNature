@@ -35,15 +35,29 @@ public interface ITransformationHandler
      * @param worldTick the relative world tick to do a transformation in.
      * @return true if so.
      */
-    boolean ready(final long worldTick);
+    default boolean ready(final long worldTick)
+    {
+        return true;
+    }
+
+    /**
+     * Check if the transformation handler is ready to do a transformation now.
+     * @param worldTick the relative world tick to do a transformation in.
+     * @return true if so.
+     */
+    default boolean ready(final long worldTick, final LevelChunk chunk)
+    {
+        return ready(worldTick);
+    }
 
     /**
      * Transform a given block in a given chunk.
      * @param relativePos the relative position in the chunk section.
      * @param chunk the chunk itself.
      * @param chunkSection the chunk section id.
+     * @param input the input state.
      */
-    void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection);
+    void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input);
 
     /**
      * Add a new handler to the list of handlers.

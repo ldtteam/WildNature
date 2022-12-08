@@ -30,11 +30,11 @@ public class DegradeFarmland implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 96 == 0;
+        return worldTick % 16 == 0;
     }
 
     @Override
-    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection)
+    public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
         final BlockState upState = Utils.getBlockState(chunk, relativePos.above(), chunkSection);
         if (upState.isAir() || chunk.getLevel().getRandom().nextInt(100) < 1)
