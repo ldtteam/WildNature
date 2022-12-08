@@ -3,6 +3,7 @@ package com.ldtteam.overgrowth.handlers;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.WorldGenLevel;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConf
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Grows different type of plants on grass.
@@ -46,7 +48,11 @@ public class GrowPlantsOnGrass implements ITransformationHandler
             final Holder<PlacedFeature> holder;
             if (randomNum < 90)
             {
-                holder = VegetationPlacements.GRASS_BONEMEAL;
+                holder = chunk.getLevel().registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(VegetationPlacements.GRASS_BONEMEAL).orElse(null);
+                if (holder == null)
+                {
+                    return;
+                }
             }
             else
             {
