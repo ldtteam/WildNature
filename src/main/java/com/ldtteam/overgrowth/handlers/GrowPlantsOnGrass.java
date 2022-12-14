@@ -30,7 +30,7 @@ public class GrowPlantsOnGrass implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick, final LevelChunk chunk)
     {
-        return chunk.getLevel().isRaining() ? worldTick % 6 == 0 : worldTick % 11 == 0;
+        return chunk.getLevel().isRaining() ? worldTick % 8 == 0 : worldTick % 14 == 0;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class GrowPlantsOnGrass implements ITransformationHandler
             final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos.above());
 
             final Holder<PlacedFeature> holder;
-            if (randomNum < 90)
+            if (randomNum < 95)
             {
                 holder = VegetationPlacements.GRASS_BONEMEAL;
             }

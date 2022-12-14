@@ -34,7 +34,7 @@ public class MuddyRain implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick, final LevelChunk chunk)
     {
-        return chunk.getLevel().isRaining() && worldTick % 17 == 0;
+        return chunk.getLevel().isRaining() && worldTick % 34 == 0;
     }
 
     @Override

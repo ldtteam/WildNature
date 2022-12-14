@@ -24,7 +24,7 @@ public abstract class ChunkTickMixin
     @Inject(method = "tickChunk", at = @At("HEAD"))
     public void tickChunk(final LevelChunk chunk, final int k, final CallbackInfo ci)
     {
-        if (k <= 0 || chunk.getLevel().getGameTime() != 0 && chunk.getLevel().getRandom().nextInt(20) != 1)
+        if (k <= 0 || chunk.getLevel().getGameTime() != 0 && chunk.getLevel().getRandom().nextInt(25) != 1)
         {
             return;
         }
@@ -37,7 +37,7 @@ public abstract class ChunkTickMixin
 
             for (int times = 0; times < k; times++)
             {
-                if (chunk.getLevel().getRandom().nextInt(20) == 1)
+                if (chunk.getLevel().getRandom().nextInt(25) == 1)
                 {
                     final BlockPos randomPos = this.getBlockRandomPos();
                     for (ITransformationHandler handler : ITransformationHandler.HANDLERS)

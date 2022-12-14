@@ -36,6 +36,8 @@ public class Overgrowth
         ITransformationHandler.HANDLERS.add(new MuddyRain());
         ITransformationHandler.HANDLERS.add(new MudDry());
 
+        ITransformationHandler.HANDLERS.add(new SpawnEntities());
+
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(EntityHandling.class);
     }
 }

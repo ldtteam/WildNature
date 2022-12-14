@@ -2,6 +2,12 @@ package com.ldtteam.overgrowth;
 
 import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,7 +31,7 @@ public class EntityHandling
             return;
         }
 
-        if (event.getEntity().tickCount % 50 == 0)
+        if (event.getEntity().tickCount % 50 == 0 && !(event.getEntity() instanceof Sheep))
         {
             final BlockPos pos = new BlockPos(event.getEntity().position().x, event.getEntity().getBoundingBox().minY - 0.5000001D, event.getEntity().position().z);
             final BlockState state = event.getEntity().getLevel().getBlockState(pos);
@@ -46,5 +52,15 @@ public class EntityHandling
                 }
             }
         }
+
+        //if (event.getEntity().tickCount % 500 == 0 && event.getEntity().getLevel().random.nextInt(100) <= 0 && event.getEntity() instanceof Animal)
+        //{
+        //    ((Animal) event.getEntity()).setInLove(null);
+        //}
+
+        //if (event.getEntity().tickCount % 500 == 0 && event.getEntity().getLevel().random.nextInt(1000) <= 0 && event.getEntity() instanceof Animal)
+        //{
+        //    event.getEntity().die(DamageSource.STARVE);
+        //}
     }
 }

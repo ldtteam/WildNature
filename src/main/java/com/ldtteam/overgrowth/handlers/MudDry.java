@@ -40,7 +40,7 @@ public class MudDry implements ITransformationHandler
             }
         }
 
-        if (waterCount < 3)
+        if (waterCount < 5)
         {
             final LevelChunkSection section = chunk.getSections()[chunkSection];
             final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
