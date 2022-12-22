@@ -1,5 +1,6 @@
 package com.ldtteam.overgrowth.handlers;
 
+import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -13,13 +14,14 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.List;
 
 /**
  * Degrades farmland.
  */
-public class DegradeFarmland implements ITransformationHandler
+public class DegradeFarmland extends AbstractTransformationHandler
 {
     @Override
     public boolean transforms(final BlockState state)
@@ -30,7 +32,13 @@ public class DegradeFarmland implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 16 == 0;
+        return getCachedSetting() != 0 && getCachedSetting() % 16 == 0;
+    }
+
+    @Override
+    public ForgeConfigSpec.IntValue getMatchingSetting()
+    {
+        return Overgrowth.config.getServer().farmlanddegration;
     }
 
     @Override

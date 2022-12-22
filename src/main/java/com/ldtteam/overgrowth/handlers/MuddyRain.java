@@ -1,5 +1,6 @@
 package com.ldtteam.overgrowth.handlers;
 
+import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.List;
 
@@ -23,8 +25,14 @@ import static net.minecraft.world.level.block.Block.UPDATE_ALL_IMMEDIATE;
 /**
  * Makes grass or dirt randomly to mud in the rain
  */
-public class MuddyRain implements ITransformationHandler
+public class MuddyRain extends AbstractTransformationHandler
 {
+    @Override
+    public ForgeConfigSpec.IntValue getMatchingSetting()
+    {
+        return Overgrowth.config.getServer().spreadmud;
+    }
+
     @Override
     public boolean transforms(final BlockState state)
     {
@@ -34,7 +42,7 @@ public class MuddyRain implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick, final LevelChunk chunk)
     {
-        return chunk.getLevel().isRaining() && worldTick % 34 == 0;
+        return getCachedSetting() != 0 && chunk.getLevel().isRaining() && getCachedSetting() % 34 == 0;
     }
 
     @Override

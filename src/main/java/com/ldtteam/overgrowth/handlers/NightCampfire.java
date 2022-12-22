@@ -1,17 +1,25 @@
 package com.ldtteam.overgrowth.handlers;
 
+import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 /**
  * Torch die.
  */
-public class NightCampfire implements ITransformationHandler
+public class NightCampfire extends AbstractTransformationHandler
 {
+    @Override
+    public ForgeConfigSpec.IntValue getMatchingSetting()
+    {
+        return Overgrowth.config.getServer().byecampfire;
+    }
+
     @Override
     public boolean transforms(final BlockState state)
     {
@@ -20,7 +28,7 @@ public class NightCampfire implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 11 == 0;
+        return getCachedSetting() != 0 && getCachedSetting() % 11 == 0;
     }
 
     @Override

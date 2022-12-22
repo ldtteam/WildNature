@@ -13,47 +13,54 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import static net.minecraft.world.level.block.Block.UPDATE_ALL_IMMEDIATE;
 
 /**
- * Lava dries up.
+ * Nylium spreads
  */
-public class LavaDry extends AbstractTransformationHandler
+public class NyliumSpread extends AbstractTransformationHandler
 {
     @Override
     public ForgeConfigSpec.IntValue getMatchingSetting()
     {
-        return Overgrowth.config.getServer().drylava;
+        return Overgrowth.config.getServer().drymud;
     }
 
     @Override
     public boolean transforms(final BlockState state)
     {
-        return state.getBlock() == Blocks.LAVA;
+        return state.getBlock() == Blocks.NETHERRACK;
     }
 
     @Override
-    public boolean ready(final long worldTick)
+    public boolean ready(final long worldTick, final LevelChunk chunk)
     {
-        return getCachedSetting() != 0 && getCachedSetting() % 13 == 0;
+        return getCachedSetting() != 0 && !chunk.getLevel().isRaining() && getCachedSetting() % 17 == 0;
     }
 
     @Override
     public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
-        int lavaCount = 0;
-        for (final Direction direction : Direction.values())
+        final BlockState aboveState = Utils.getBlockState(chunk, relativePos.above(), chunkSection);
+        if (aboveState.getMaterial().isSolid())
+        {
+            return;
+        }
+
+        BlockState spreadState = null;
+        for (final Direction direction : Direction.Plane.HORIZONTAL)
         {
             final BlockState relativeState = Utils.getBlockState(chunk, relativePos.relative(direction), chunkSection);
-            if (relativeState.getBlock() == Blocks.LAVA || relativeState.getBlock() == Blocks.NETHERRACK)
+            if (relativeState.getBlock() == Blocks.CRIMSON_NYLIUM || relativeState.getBlock() == Blocks.WARPED_NYLIUM)
             {
-                lavaCount++;
+                spreadState = relativeState;
+                break;
             }
         }
 
-        if (lavaCount < 5)
+        if (spreadState != null)
         {
             final LevelChunkSection section = chunk.getSections()[chunkSection];
             final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
 
-            chunk.getLevel().setBlock(worldPos, Blocks.COBBLESTONE.defaultBlockState(), UPDATE_ALL_IMMEDIATE);
+            chunk.getLevel().setBlock(worldPos, spreadState, UPDATE_ALL_IMMEDIATE);
         }
     }
 }

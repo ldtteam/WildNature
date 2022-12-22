@@ -1,5 +1,6 @@
 package com.ldtteam.overgrowth.handlers;
 
+import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,7 +25,7 @@ import static net.minecraft.world.level.block.Blocks.*;
 /**
  * Grow mushrooms next to humiditz
  */
-public class GrowMushrooms implements ITransformationHandler
+public class GrowMushrooms extends AbstractTransformationHandler
 {
     /**
      * Mapping the transformations.
@@ -45,6 +47,12 @@ public class GrowMushrooms implements ITransformationHandler
     }
 
     @Override
+    public ForgeConfigSpec.IntValue getMatchingSetting()
+    {
+        return Overgrowth.config.getServer().mushrooms;
+    }
+
+    @Override
     public boolean transforms(final BlockState state)
     {
         return transformationMapping.contains(state.getBlock());
@@ -53,7 +61,7 @@ public class GrowMushrooms implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 23 == 0;
+        return getCachedSetting() != 0 && getCachedSetting() % 23 == 0;
     }
 
     @Override

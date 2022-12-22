@@ -1,5 +1,6 @@
 package com.ldtteam.overgrowth.handlers;
 
+import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -8,6 +9,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +19,7 @@ import static net.minecraft.world.level.block.Block.UPDATE_ALL_IMMEDIATE;
 /**
  * Declines coast.
  */
-public class CoastDecline implements ITransformationHandler
+public class CoastDecline extends AbstractTransformationHandler
 {
     /**
      * Mapping the transformations.
@@ -30,6 +32,12 @@ public class CoastDecline implements ITransformationHandler
         transformationMapping.add(Blocks.GRAVEL);
         transformationMapping.add(Blocks.DIRT);
     }
+
+    @Override
+    public ForgeConfigSpec.IntValue getMatchingSetting()
+    {
+        return Overgrowth.config.getServer().coastdecline;
+    }
     
     @Override
     public boolean transforms(final BlockState state)
@@ -40,7 +48,7 @@ public class CoastDecline implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 18 == 0;
+        return getCachedSetting() != 0 && getCachedSetting() % 18 == 0;
     }
 
     @Override

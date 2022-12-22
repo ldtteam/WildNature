@@ -1,5 +1,6 @@
 package com.ldtteam.overgrowth.handlers;
 
+import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -13,24 +14,31 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.List;
 
 /**
  * Grows different type of plants on grass.
  */
-public class GrowPlantsOnGrass implements ITransformationHandler
+public class GrowPlantsOnGrass extends AbstractTransformationHandler
 {
+    @Override
+    public ForgeConfigSpec.IntValue getMatchingSetting()
+    {
+        return Overgrowth.config.getServer().growplants;
+    }
+
     @Override
     public boolean transforms(final BlockState state)
     {
-        return state.getBlock() == Blocks.GRASS_BLOCK;
+        return state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.PODZOL;
     }
 
     @Override
     public boolean ready(final long worldTick, final LevelChunk chunk)
     {
-        return chunk.getLevel().isRaining() ? worldTick % 8 == 0 : worldTick % 14 == 0;
+        return getCachedSetting() != 0 && chunk.getLevel().isRaining() ? getCachedSetting()/2 % 8 == 0 : getCachedSetting() % 16 == 0;
     }
 
     @Override

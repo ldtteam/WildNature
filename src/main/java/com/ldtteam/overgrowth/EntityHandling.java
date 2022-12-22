@@ -1,16 +1,11 @@
 package com.ldtteam.overgrowth;
 
+import com.ldtteam.overgrowth.utils.Utils;
 import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.animal.Sheep;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,6 +19,8 @@ public class EntityHandling
      */
     private static Object2IntLinkedOpenHashMap<BlockPos> positionMapping = new Object2IntLinkedOpenHashMap<>();
 
+    public static int cachedSetting = -1;
+
     @SubscribeEvent
     public static void onEntityTick(final LivingEvent.LivingTickEvent event)
     {
@@ -32,34 +29,23 @@ public class EntityHandling
             return;
         }
 
-        if (event.getEntity().tickCount % 50 == 0 && !(event.getEntity() instanceof Sheep))
+        if (cachedSetting == -1)
+        {
+            cachedSetting = Overgrowth.config.getServer().createpath.get();
+        }
+
+        if (cachedSetting != 0 && event.getEntity().tickCount % cachedSetting == 0 && !(event.getEntity() instanceof Sheep))
         {
             final BlockPos pos = new BlockPos(event.getEntity().position().x, event.getEntity().getBoundingBox().minY - 0.5000001D, event.getEntity().position().z);
             final BlockState state = event.getEntity().getLevel().getBlockState(pos);
 
-            if (state.getBlock() == Blocks.GRASS_BLOCK)
+            if (state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.PODZOL)
             {
-                final int result = positionMapping.addTo(pos, 1);
-                if (result > 25)
-                {
-                    final BlockState upState = event.getEntity().getLevel().getBlockState(pos.above());
-                    if (!(upState.getBlock() instanceof DoorBlock))
-                    {
-                        event.getEntity().getLevel().setBlock(pos, Blocks.DIRT_PATH.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
-                    }
-                }
+                handlePathForBlock(pos, Blocks.DIRT_PATH.defaultBlockState(), event);
             }
             else if (state.getBlock() == Blocks.SAND)
             {
-                final int result = positionMapping.addTo(pos, 1);
-                if (result > 25)
-                {
-                    final BlockState upState = event.getEntity().getLevel().getBlockState(pos.above());
-                    if (!(upState.getBlock() instanceof DoorBlock))
-                    {
-                        event.getEntity().getLevel().setBlock(pos, Blocks.SANDSTONE.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
-                    }
-                }
+                handlePathForBlock(pos, Blocks.SANDSTONE.defaultBlockState(), event);
             }
         }
 
@@ -72,5 +58,36 @@ public class EntityHandling
         //{
         //    event.getEntity().die(DamageSource.STARVE);
         //}
+    }
+
+    /**
+     * Handle this for a given blockstate.
+     * @param defaultBlockState
+     */
+    private static void handlePathForBlock(final BlockPos pos, final BlockState defaultBlockState, final LivingEvent.LivingTickEvent event)
+    {
+        final int result = positionMapping.addTo(pos, 1);
+        boolean adjacentPath = false;
+        for (Direction direction : Direction.Plane.HORIZONTAL)
+        {
+            if (Utils.getBlockState(event.getEntity().getLevel(), pos.relative(direction)).getBlock() == defaultBlockState.getBlock())
+            {
+                adjacentPath = true;
+            }
+        }
+        if (result > cachedSetting || (adjacentPath && result > cachedSetting / 2.0))
+        {
+            final Block upBlock = Utils.getBlockState(event.getEntity().getLevel(), pos.above()).getBlock();
+            if (upBlock instanceof SnowLayerBlock || upBlock == Blocks.GRASS)
+            {
+                event.getEntity().getLevel().setBlock(pos.above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
+            }
+            else if (!(upBlock instanceof DoorBlock))
+            {
+                event.getEntity().getLevel().setBlock(pos, defaultBlockState, Block.UPDATE_ALL_IMMEDIATE);
+            }
+
+            positionMapping.remove(pos);
+        }
     }
 }

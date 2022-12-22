@@ -1,5 +1,6 @@
 package com.ldtteam.overgrowth.handlers;
 
+import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,12 +14,19 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 /**
  * Grows different type of underwater plants.
  */
-public class GrowWaterPlants implements ITransformationHandler
+public class GrowWaterPlants extends AbstractTransformationHandler
 {
+    @Override
+    public ForgeConfigSpec.IntValue getMatchingSetting()
+    {
+        return Overgrowth.config.getServer().underwaterplants;
+    }
+
     @Override
     public boolean transforms(final BlockState state)
     {
@@ -28,7 +36,7 @@ public class GrowWaterPlants implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 12 == 0;
+        return getCachedSetting() != 0 && getCachedSetting() % 12 == 0;
     }
 
     @Override

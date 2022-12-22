@@ -1,5 +1,6 @@
 package com.ldtteam.overgrowth.handlers;
 
+import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -8,6 +9,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +19,7 @@ import static net.minecraft.world.level.block.Block.*;
 /**
  * Stonebrick and cobble types to mossy versions.
  */
-public class MossyBlocksDegradation implements ITransformationHandler
+public class MossyBlocksDegradation extends AbstractTransformationHandler
 {
     /**
      * Mapping the transformations.
@@ -35,6 +37,12 @@ public class MossyBlocksDegradation implements ITransformationHandler
         transformationMapping.put(Blocks.COBBLESTONE_SLAB, Blocks.MOSSY_COBBLESTONE_SLAB);
         transformationMapping.put(Blocks.COBBLESTONE_WALL, Blocks.MOSSY_COBBLESTONE_WALL);
     }
+
+    @Override
+    public ForgeConfigSpec.IntValue getMatchingSetting()
+    {
+        return Overgrowth.config.getServer().mossyblocks;
+    }
     
     @Override
     public boolean transforms(final BlockState state)
@@ -45,7 +53,7 @@ public class MossyBlocksDegradation implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return worldTick % 14 == 0;
+        return getCachedSetting() != 0 && getCachedSetting() % 14 == 0;
     }
 
     @Override

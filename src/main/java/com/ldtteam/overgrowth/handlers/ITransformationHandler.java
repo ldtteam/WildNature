@@ -3,6 +3,7 @@ package com.ldtteam.overgrowth.handlers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,4 +68,10 @@ public interface ITransformationHandler
     {
         HANDLERS.add(handler);
     }
+
+    /**
+     * Get the matching setting for this.
+     * @return the setting.
+     */
+    ForgeConfigSpec.IntValue getMatchingSetting();
 }

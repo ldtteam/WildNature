@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ChunkHolder;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -111,5 +112,20 @@ public class Utils
         {
             return chunk.getSections()[sectionId].getBlockState(pos.getX(), pos.getY(), pos.getZ());
         }
+    }
+
+    /**
+     * Get the blockstate if chunk is loaded.
+     * @param level the level to check in.
+     * @param worldPos the pos to check it.
+     * @return valid blockstate or barrier.
+     */
+    public static BlockState getBlockState(final Level level, final BlockPos worldPos)
+    {
+        if (Utils.isBlockLoaded(level, worldPos))
+        {
+            return  level.getBlockState(worldPos);
+        }
+        return Blocks.BARRIER.defaultBlockState();
     }
 }

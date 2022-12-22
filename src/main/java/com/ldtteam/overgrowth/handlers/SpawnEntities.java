@@ -1,5 +1,6 @@
 package com.ldtteam.overgrowth.handlers;
 
+import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
@@ -19,12 +20,19 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.entity.EntitySection;
 import net.minecraft.world.level.entity.EntitySectionStorage;
 import net.minecraft.world.level.entity.LevelEntityGetterAdapter;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 /**
  * Grows different type of plants on grass.
  */
-public class SpawnEntities implements ITransformationHandler
+public class SpawnEntities extends AbstractTransformationHandler
 {
+    @Override
+    public ForgeConfigSpec.IntValue getMatchingSetting()
+    {
+        return Overgrowth.config.getServer().entityspawn;
+    }
+
     @Override
     public boolean transforms(final BlockState state)
     {
@@ -34,7 +42,7 @@ public class SpawnEntities implements ITransformationHandler
     @Override
     public boolean ready(final long worldTick, final LevelChunk chunk)
     {
-        return worldTick % 23 == 0;
+        return getCachedSetting() != 0 && getCachedSetting() % 23 == 0;
     }
 
     @Override
