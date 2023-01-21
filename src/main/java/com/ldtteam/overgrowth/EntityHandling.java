@@ -1,9 +1,11 @@
 package com.ldtteam.overgrowth;
 
 import com.ldtteam.overgrowth.utils.Utils;
+import com.mojang.math.Matrix4f;
 import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,7 +21,7 @@ public class EntityHandling
      */
     private static Object2IntLinkedOpenHashMap<BlockPos> positionMapping = new Object2IntLinkedOpenHashMap<>();
 
-    public static int cachedSetting = -1;
+    public static int cachedSetting = 1;
 
     @SubscribeEvent
     public static void onEntityTick(final LivingEvent.LivingTickEvent event)
@@ -77,12 +79,13 @@ public class EntityHandling
         }
         if (result > cachedSetting || (adjacentPath && result > cachedSetting / 2.0))
         {
-            final Block upBlock = Utils.getBlockState(event.getEntity().getLevel(), pos.above()).getBlock();
-            if (upBlock instanceof SnowLayerBlock || upBlock == Blocks.GRASS)
+            final BlockState upState = Utils.getBlockState(event.getEntity().getLevel(), pos.above());
+            final Block upBlock = upState.getBlock();
+            if (upBlock instanceof SnowLayerBlock || upBlock == Blocks.GRASS || upBlock == Blocks.TALL_GRASS)
             {
                 event.getEntity().getLevel().setBlock(pos.above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
             }
-            else if (!(upBlock instanceof DoorBlock))
+            else if (upState.isAir())
             {
                 event.getEntity().getLevel().setBlock(pos, defaultBlockState, Block.UPDATE_ALL_IMMEDIATE);
             }

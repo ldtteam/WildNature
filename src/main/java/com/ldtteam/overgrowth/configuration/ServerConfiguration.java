@@ -40,7 +40,7 @@ public class ServerConfiguration extends AbstractConfiguration
     {
         createCategory(builder, "main");
 
-        globalspeed = defineInteger(builder, "globalspeed", "In general how often the individual handlers are ticked. 0 to turn it off.", "Global Update-rate", 30, 0, 1000);
+        globalspeed = defineInteger(builder, "globalspeed", "In general how often the individual handlers are ticked. 0 to turn it off.", "Global Update-rate", 80, 0, 1000);
         byetorch = defineInteger(builder, "byetorch", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Torch falling handling", 19, 0, 1000);
         coastdecline = defineInteger(builder, "coastdecline", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Coast decline handling", 18, 0, 1000);
         lavadegration = defineInteger(builder, "lavadegration", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Lava Degradation handling", 17, 0, 1000);
