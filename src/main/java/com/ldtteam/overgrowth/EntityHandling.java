@@ -21,7 +21,7 @@ public class EntityHandling
      */
     private static Object2IntLinkedOpenHashMap<BlockPos> positionMapping = new Object2IntLinkedOpenHashMap<>();
 
-    public static int cachedSetting = 1;
+    public static int cachedSetting = -1;
 
     @SubscribeEvent
     public static void onEntityTick(final LivingEvent.LivingTickEvent event)
