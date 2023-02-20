@@ -22,7 +22,7 @@ public abstract class ChunkTickMixin
     private int randValue = RandomSource.create().nextInt();
 
     @Inject(method = "tickChunk", at = @At("HEAD"))
-    public void tickChunk(final LevelChunk chunk, final int k, final CallbackInfo ci)
+    public void overgrowthTickChunk(final LevelChunk chunk, final int k, final CallbackInfo ci)
     {
         int configValue = Overgrowth.config.getServer().globalspeed.get();
         if (k <= 0 || chunk.getLevel().getGameTime() != 0 && chunk.getLevel().getRandom().nextInt(configValue) != 1)
@@ -40,7 +40,7 @@ public abstract class ChunkTickMixin
             {
                 if (chunk.getLevel().getRandom().nextInt(configValue) == 1)
                 {
-                    final BlockPos randomPos = this.getBlockRandomPos();
+                    final BlockPos randomPos = this.overgrowthGetBlockRandomPos();
                     for (ITransformationHandler handler : ITransformationHandler.HANDLERS)
                     {
                         BlockState randomState = levelchunksection.getBlockState(randomPos.getX(), randomPos.getY(), randomPos.getZ());
@@ -67,7 +67,7 @@ public abstract class ChunkTickMixin
      *
      * @return the random position.
      */
-    private BlockPos getBlockRandomPos()
+    private BlockPos overgrowthGetBlockRandomPos()
     {
         this.randValue = this.randValue * 3 + 1013904223;
         int i = this.randValue >> 2;

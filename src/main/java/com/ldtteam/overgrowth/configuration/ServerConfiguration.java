@@ -59,7 +59,7 @@ public class ServerConfiguration extends AbstractConfiguration
         entityspawn = defineInteger(builder, "entityspawn", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Entity Spawning handling", 23, 0, 1000);
         spreadnylium = defineInteger(builder, "spreadnylium", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Nylium Spread handling", 24, 0, 1000);
 
-        createpath = defineInteger(builder, "createpath", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Entities leaving handling", 50, 0, 1000);
+        createpath = defineInteger(builder, "createpath", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Entities leaving handling", 100, 0, 1000);
 
         finishCategory(builder);
     }
