@@ -4,6 +4,7 @@ import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.WorldGenLevel;
@@ -54,7 +55,11 @@ public class GrowPlantsOnGrass extends AbstractTransformationHandler
             final Holder<PlacedFeature> holder;
             if (randomNum < 95)
             {
-                holder = VegetationPlacements.GRASS_BONEMEAL;
+                holder = chunk.getLevel().registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(VegetationPlacements.GRASS_BONEMEAL).orElse(null);
+                if (holder == null)
+                {
+                    return;
+                }
             }
             else
             {

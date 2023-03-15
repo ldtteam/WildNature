@@ -51,7 +51,7 @@ public class DegradeFarmland extends AbstractTransformationHandler
 
             final LevelChunkSection section = chunk.getSections()[chunkSection];
             final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
-            FarmBlock.turnToDirt(hereState, chunk.getLevel(), worldPos);
+            FarmBlock.turnToDirt(null, hereState, chunk.getLevel(), worldPos);
         }
         else if (upState.getBlock() instanceof CropBlock)
         {

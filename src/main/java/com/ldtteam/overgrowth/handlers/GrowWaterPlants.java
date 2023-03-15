@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
@@ -69,7 +70,7 @@ public class GrowWaterPlants extends AbstractTransformationHandler
                             final BlockState relativeState = Utils.getBlockState(chunk, relativePos.relative(direction), chunkSection);
                             if (relativeState.isCollisionShapeFullBlock(chunk.getLevel(), worldPos.relative(direction)))
                             {
-                                blockstate = Registry.BLOCK.getTag(BlockTags.WALL_CORALS)
+                                blockstate = BuiltInRegistries.BLOCK.getTag(BlockTags.WALL_CORALS)
                                                .flatMap((set) -> set.getRandomElement(chunk.getLevel().random))
                                                .map((blockHolder) -> blockHolder.value().defaultBlockState()).orElse(blockstate);
                                 if (blockstate.hasProperty(BaseCoralWallFanBlock.FACING))
@@ -87,7 +88,7 @@ public class GrowWaterPlants extends AbstractTransformationHandler
             Holder<Biome> holder = chunk.getLevel().getBiome(worldPos);
             if (holder.is(BiomeTags.PRODUCES_CORALS_FROM_BONEMEAL) || randomNum < 5)
             {
-                blockstate = Registry.BLOCK.getTag(BlockTags.UNDERWATER_BONEMEALS)
+                blockstate = BuiltInRegistries.BLOCK.getTag(BlockTags.UNDERWATER_BONEMEALS)
                                    .flatMap((set) -> set.getRandomElement(chunk.getLevel().random))
                                    .map((blockHolder) -> blockHolder.value().defaultBlockState()).orElse(blockstate);
             }

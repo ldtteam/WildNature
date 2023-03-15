@@ -1,11 +1,9 @@
 package com.ldtteam.overgrowth;
 
 import com.ldtteam.overgrowth.utils.Utils;
-import com.mojang.math.Matrix4f;
 import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -38,7 +36,7 @@ public class EntityHandling
 
         if (cachedSetting != 0 && event.getEntity().tickCount % cachedSetting == 0 && !(event.getEntity() instanceof Sheep))
         {
-            final BlockPos pos = new BlockPos(event.getEntity().position().x, event.getEntity().getBoundingBox().minY - 0.5000001D, event.getEntity().position().z);
+            final BlockPos pos = BlockPos.containing(event.getEntity().position().x, event.getEntity().getBoundingBox().minY - 0.5000001D, event.getEntity().position().z);
             final BlockState state = event.getEntity().getLevel().getBlockState(pos);
 
             if (state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.PODZOL)
