@@ -61,7 +61,7 @@ public class GrowMushrooms extends AbstractTransformationHandler
     @Override
     public boolean ready(final long worldTick)
     {
-        return getCachedSetting() != 0 && getCachedSetting() % 23 == 0;
+        return getCachedSetting() != 0 && worldTick % getCachedSetting() == 0;
     }
 
     @Override
