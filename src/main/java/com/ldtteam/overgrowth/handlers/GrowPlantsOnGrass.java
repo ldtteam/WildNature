@@ -38,7 +38,7 @@ public class GrowPlantsOnGrass extends AbstractTransformationHandler
     @Override
     public boolean ready(final long worldTick, final LevelChunk chunk)
     {
-        return getCachedSetting() != 0 && chunk.getLevel().isRaining() ? getCachedSetting()/2 % 8 == 0 : getCachedSetting() % 16 == 0;
+        return getCachedSetting() != 0 && chunk.getLevel().isRaining() ? worldTick % (getCachedSetting()/2) == 0 : worldTick % getCachedSetting() == 0;
     }
 
     @Override

@@ -42,7 +42,7 @@ public class MuddyRain extends AbstractTransformationHandler
     @Override
     public boolean ready(final long worldTick, final LevelChunk chunk)
     {
-        return getCachedSetting() != 0 && chunk.getLevel().isRaining() && getCachedSetting() % 34 == 0;
+        return getCachedSetting() != 0 && chunk.getLevel().isRaining() && worldTick % getCachedSetting() == 0;
     }
 
     @Override
