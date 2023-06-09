@@ -11,6 +11,9 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 @Mod.EventBusSubscriber
 public class EntityHandling
 {
@@ -18,6 +21,11 @@ public class EntityHandling
      * Stores position to count.
      */
     private static Object2IntLinkedOpenHashMap<BlockPos> positionMapping = new Object2IntLinkedOpenHashMap<>();
+
+    /**
+     * Make sure we track only entities in movement.
+     */
+    private static HashMap<UUID, BlockPos> lastEntityPos = new HashMap<>();
 
     public static int cachedSetting = -1;
 
@@ -36,17 +44,21 @@ public class EntityHandling
 
         if (cachedSetting != 0 && event.getEntity().tickCount % cachedSetting == 0 && !(event.getEntity() instanceof Sheep))
         {
-            final BlockPos pos = BlockPos.containing(event.getEntity().position().x, event.getEntity().getBoundingBox().minY - 0.5000001D, event.getEntity().position().z);
+            if (!lastEntityPos.getOrDefault(event.getEntity().getUUID(), BlockPos.ZERO).equals(event.getEntity().blockPosition()))
+            {
+                final BlockPos pos = BlockPos.containing(event.getEntity().position().x, event.getEntity().getBoundingBox().minY - 0.5000001D, event.getEntity().position().z);
                 final BlockState state = event.getEntity().level().getBlockState(pos);
 
-            if (state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.PODZOL)
-            {
-                handlePathForBlock(pos, Blocks.DIRT_PATH.defaultBlockState(), event);
+                if (state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.PODZOL)
+                {
+                    handlePathForBlock(pos, Blocks.DIRT_PATH.defaultBlockState(), event);
+                }
+                else if (state.getBlock() == Blocks.SAND)
+                {
+                    handlePathForBlock(pos, Blocks.SANDSTONE.defaultBlockState(), event);
+                }
             }
-            else if (state.getBlock() == Blocks.SAND)
-            {
-                handlePathForBlock(pos, Blocks.SANDSTONE.defaultBlockState(), event);
-            }
+            lastEntityPos.put(event.getEntity().getUUID(), event.getEntity().blockPosition());
         }
 
         //if (event.getEntity().tickCount % 500 == 0 && event.getEntity().getLevel().random.nextInt(100) <= 0 && event.getEntity() instanceof Animal)
