@@ -63,8 +63,7 @@ public class SpiderWebs extends AbstractTransformationHandler
                     if (otherDir != direction.getOpposite() && otherDir != Direction.DOWN)
                     {
                         final BlockState otherRelativeState = Utils.getBlockState(chunk, relativePos.relative(direction).relative(otherDir), chunkSection);
-                        final LevelChunkSection section = chunk.getSections()[chunkSection];
-                        final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos.relative(direction).relative(otherDir));
+                        final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos.relative(direction).relative(otherDir));
                         if (otherRelativeState.isCollisionShapeFullBlock(chunk.getLevel(), worldPos))
                         {
                             for (int i = 0; i <= 3; i++)
@@ -75,7 +74,7 @@ public class SpiderWebs extends AbstractTransformationHandler
                                     return;
                                 }
                             }
-                            final BlockPos worldSetPos = Utils.getWorldPos(chunk, section, relativePos.relative(direction));
+                            final BlockPos worldSetPos = Utils.getWorldPos(chunk, chunkSection, relativePos.relative(direction));
 
                             chunk.getLevel().setBlock(worldSetPos, Blocks.COBWEB.defaultBlockState(), UPDATE_ALL_IMMEDIATE);
                             return;

@@ -49,14 +49,12 @@ public class DegradeFarmland extends AbstractTransformationHandler
         {
             final BlockState hereState = Utils.getBlockState(chunk, relativePos, chunkSection);
 
-            final LevelChunkSection section = chunk.getSections()[chunkSection];
-            final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
+            final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos);
             FarmBlock.turnToDirt(null, hereState, chunk.getLevel(), worldPos);
         }
         else if (upState.getBlock() instanceof CropBlock)
         {
-            final LevelChunkSection section = chunk.getSections()[chunkSection];
-            final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos.above());
+            final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos.above());
 
             if (chunk.getLevel().getRandom().nextInt(100) < 10)
             {

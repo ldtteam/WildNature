@@ -49,8 +49,7 @@ public class GrowPlantsOnGrass extends AbstractTransformationHandler
         if (upState.isAir())
         {
             final int randomNum = random.nextInt(100);
-            final LevelChunkSection section = chunk.getSections()[chunkSection];
-            final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos.above());
+            final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos.above());
 
             final Holder<PlacedFeature> holder;
             if (randomNum < 95)
@@ -74,8 +73,7 @@ public class GrowPlantsOnGrass extends AbstractTransformationHandler
         }
         else if (upState.getBlock() instanceof TallGrassBlock && upState.getBlock() instanceof BonemealableBlock)
         {
-            final LevelChunkSection section = chunk.getSections()[chunkSection];
-            final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos.above());
+            final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos.above());
 
             ((TallGrassBlock) upState.getBlock()).performBonemeal((ServerLevel) chunk.getLevel(), chunk.getLevel().getRandom(), worldPos, upState);
         }

@@ -44,8 +44,7 @@ public class GrowWaterPlants extends AbstractTransformationHandler
     public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
         final BlockState state = Utils.getBlockState(chunk, relativePos, chunkSection);
-        final LevelChunkSection section = chunk.getSections()[chunkSection];
-        final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
+        final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos);
         final int randomNum = random.nextInt(100);
 
         if (state.getBlock() == Blocks.SEAGRASS)

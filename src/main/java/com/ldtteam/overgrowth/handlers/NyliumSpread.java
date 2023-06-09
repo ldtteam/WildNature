@@ -39,7 +39,7 @@ public class NyliumSpread extends AbstractTransformationHandler
     public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
         final BlockState aboveState = Utils.getBlockState(chunk, relativePos.above(), chunkSection);
-        if (aboveState.getMaterial().isSolid())
+        if (aboveState.isSolid())
         {
             return;
         }
@@ -57,8 +57,7 @@ public class NyliumSpread extends AbstractTransformationHandler
 
         if (spreadState != null)
         {
-            final LevelChunkSection section = chunk.getSections()[chunkSection];
-            final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
+            final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos);
 
             chunk.getLevel().setBlock(worldPos, spreadState, UPDATE_ALL_IMMEDIATE);
         }

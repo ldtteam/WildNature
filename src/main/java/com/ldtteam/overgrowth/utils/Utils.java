@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
 
 public class Utils
 {
@@ -21,9 +20,9 @@ public class Utils
      * @param relativePos the relative pos.
      * @return the in world pos.
      */
-    public static BlockPos getWorldPos(final LevelChunk chunk, final LevelChunkSection section, final BlockPos relativePos)
+    public static BlockPos getWorldPos(final LevelChunk chunk, final int section, final BlockPos relativePos)
     {
-        return new BlockPos(chunk.getPos().getMinBlockX() + relativePos.getX(), section.bottomBlockY() + relativePos.getY(), chunk.getPos().getMinBlockZ() + relativePos.getZ());
+        return new BlockPos(chunk.getPos().getMinBlockX() + relativePos.getX(), chunk.getSectionYFromSectionIndex(section) + relativePos.getY(), chunk.getPos().getMinBlockZ() + relativePos.getZ());
     }
 
     /**
@@ -72,7 +71,7 @@ public class Utils
     {
         if (pos.getX() >= 16 || pos.getZ() >= 16 || pos.getX() < 0 || pos.getZ() < 0)
         {
-            final BlockPos worldPos = Utils.getWorldPos(chunk, chunk.getSections()[sectionId], pos);
+            final BlockPos worldPos = Utils.getWorldPos(chunk, sectionId, pos);
             if (Utils.isBlockLoaded(chunk.getLevel(), worldPos))
             {
                 return chunk.getLevel().getBlockState(worldPos);

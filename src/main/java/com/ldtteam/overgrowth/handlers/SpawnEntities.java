@@ -92,8 +92,7 @@ public class SpawnEntities extends AbstractTransformationHandler
                 break;
         }
 
-        final LevelChunkSection section = chunk.getSections()[chunkSection];
-        final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos.above());
+        final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos.above());
 
         for (int i = 0; i < 2; i++)
         {

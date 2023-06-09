@@ -50,8 +50,7 @@ public class LavaDry extends AbstractTransformationHandler
 
         if (lavaCount < 5)
         {
-            final LevelChunkSection section = chunk.getSections()[chunkSection];
-            final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
+            final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos);
 
             chunk.getLevel().setBlock(worldPos, Blocks.COBBLESTONE.defaultBlockState(), UPDATE_ALL_IMMEDIATE);
         }

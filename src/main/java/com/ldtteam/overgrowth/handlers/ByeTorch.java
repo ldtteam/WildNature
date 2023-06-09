@@ -39,7 +39,7 @@ public class ByeTorch extends AbstractTransformationHandler
     @Override
     public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
-        final BlockPos worldPos = Utils.getWorldPos(chunk, chunk.getSections()[chunkSection], relativePos);
+        final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos);
         chunk.getLevel().destroyBlock(worldPos, false);
     }
 }

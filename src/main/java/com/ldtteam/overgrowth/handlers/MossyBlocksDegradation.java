@@ -64,8 +64,7 @@ public class MossyBlocksDegradation extends AbstractTransformationHandler
             final BlockState relativeState = Utils.getBlockState(chunk, relativePos.relative(direction), chunkSection);
             if (relativeState.getBlock() == Blocks.WATER)
             {
-                final LevelChunkSection section = chunk.getSections()[chunkSection];
-                final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
+                final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos);
 
 
                 chunk.getLevel().setBlock(worldPos, transformationMapping.get(input.getBlock()).withPropertiesOf(input), UPDATE_ALL_IMMEDIATE);

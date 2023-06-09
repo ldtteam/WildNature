@@ -48,8 +48,7 @@ public class MuddyRain extends AbstractTransformationHandler
     @Override
     public void transformBlock(final BlockPos relativePos, final LevelChunk chunk, final int chunkSection, final BlockState input)
     {
-        final LevelChunkSection section = chunk.getSections()[chunkSection];
-        final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos);
+        final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos);
 
         if (chunk.getLevel().canSeeSky(worldPos.above()))
         {

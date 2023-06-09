@@ -39,7 +39,7 @@ public class NightCampfire extends AbstractTransformationHandler
         {
             return;
         }
-        final BlockPos worldPos = Utils.getWorldPos(chunk, chunk.getSections()[chunkSection], relativePos);
+        final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos);
         chunk.getLevel().setBlock(worldPos, Blocks.CAMPFIRE.defaultBlockState().setValue(CampfireBlock.LIT, false), 0x03);
     }
 }

@@ -71,8 +71,7 @@ public class GrowMushrooms extends AbstractTransformationHandler
         {
             final BlockState relativeState = Utils.getBlockState(chunk, relativePos.relative(direction), chunkSection);
 
-            final LevelChunkSection section = chunk.getSections()[chunkSection];
-            final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos.relative(direction).above());
+            final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos.relative(direction).above());
             if (relativeState.isCollisionShapeFullBlock(chunk.getLevel(), worldPos.relative(direction))
                   && Utils.getBlockState(chunk, relativePos.relative(direction).above(), chunkSection).isAir()
                   && BROWN_MUSHROOM.canSurvive(BROWN_MUSHROOM.defaultBlockState(), chunk.getLevel(), worldPos))

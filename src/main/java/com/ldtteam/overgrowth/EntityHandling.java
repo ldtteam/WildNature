@@ -24,7 +24,7 @@ public class EntityHandling
     @SubscribeEvent
     public static void onEntityTick(final LivingEvent.LivingTickEvent event)
     {
-        if (event.getEntity().getLevel().isClientSide)
+        if (event.getEntity().level().isClientSide)
         {
             return;
         }
@@ -37,7 +37,7 @@ public class EntityHandling
         if (cachedSetting != 0 && event.getEntity().tickCount % cachedSetting == 0 && !(event.getEntity() instanceof Sheep))
         {
             final BlockPos pos = BlockPos.containing(event.getEntity().position().x, event.getEntity().getBoundingBox().minY - 0.5000001D, event.getEntity().position().z);
-            final BlockState state = event.getEntity().getLevel().getBlockState(pos);
+                final BlockState state = event.getEntity().level().getBlockState(pos);
 
             if (state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.PODZOL)
             {
@@ -70,22 +70,22 @@ public class EntityHandling
         boolean adjacentPath = false;
         for (Direction direction : Direction.Plane.HORIZONTAL)
         {
-            if (Utils.getBlockState(event.getEntity().getLevel(), pos.relative(direction)).getBlock() == defaultBlockState.getBlock())
+            if (Utils.getBlockState(event.getEntity().level(), pos.relative(direction)).getBlock() == defaultBlockState.getBlock())
             {
                 adjacentPath = true;
             }
         }
         if (result > cachedSetting || (adjacentPath && result > cachedSetting / 2.0))
         {
-            final BlockState upState = Utils.getBlockState(event.getEntity().getLevel(), pos.above());
+            final BlockState upState = Utils.getBlockState(event.getEntity().level(), pos.above());
             final Block upBlock = upState.getBlock();
             if (upBlock instanceof SnowLayerBlock || upBlock == Blocks.GRASS || upBlock == Blocks.TALL_GRASS)
             {
-                event.getEntity().getLevel().setBlock(pos.above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
+                event.getEntity().level().setBlock(pos.above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
             }
             else if (upState.isAir())
             {
-                event.getEntity().getLevel().setBlock(pos, defaultBlockState, Block.UPDATE_ALL_IMMEDIATE);
+                event.getEntity().level().setBlock(pos, defaultBlockState, Block.UPDATE_ALL_IMMEDIATE);
             }
 
             positionMapping.remove(pos);

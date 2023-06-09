@@ -41,15 +41,13 @@ public class SandToSandstone extends AbstractTransformationHandler
         final BlockState relativeState = Utils.getBlockState(chunk, relativePos.below(), chunkSection);
         if (relativeState.getBlock() == Blocks.SAND)
         {
-            final LevelChunkSection section = chunk.getSections()[chunkSection];
-            final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos).below();
+            final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos).below();
 
             chunk.getLevel().setBlock(worldPos, Blocks.SANDSTONE.defaultBlockState(), UPDATE_ALL_IMMEDIATE);
         }
         else if (relativeState.getBlock() == Blocks.RED_SAND)
         {
-            final LevelChunkSection section = chunk.getSections()[chunkSection];
-            final BlockPos worldPos = Utils.getWorldPos(chunk, section, relativePos).below();
+            final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos).below();
 
             chunk.getLevel().setBlock(worldPos, Blocks.RED_SANDSTONE.defaultBlockState(), UPDATE_ALL_IMMEDIATE);
         }
