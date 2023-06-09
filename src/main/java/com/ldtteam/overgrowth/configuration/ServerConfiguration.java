@@ -50,8 +50,8 @@ public class ServerConfiguration extends AbstractConfiguration
         underwaterplants = defineInteger(builder, "underwaterplants", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Underwater Plant handling", 15, 0, 1000);
         drylava = defineInteger(builder, "drylava", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Lava Drying handling", 17, 0, 1000);
         mossyblocks = defineInteger(builder, "mossyblocks", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Mossy Blocks handling", 14, 0, 1000);
-        drymud = defineInteger(builder, "drymud", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Mud Dry handling", 17, 0, 1000);
-        spreadmud = defineInteger(builder, "spreadmud", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Mud during Rain Spread handling", 34, 0, 1000);
+        drymud = defineInteger(builder, "drymud", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Mud Dry handling", 7, 0, 1000);
+        spreadmud = defineInteger(builder, "spreadmud", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Mud during Rain Spread handling", 64, 0, 1000);
         byecampfire = defineInteger(builder, "byecampfire", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Campfire going out handling", 11, 0, 1000);
         anvilsand = defineInteger(builder, "anvilsand", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Anvil on Sand to Sandstone handling", 13, 0, 1000);
         spiderwebs = defineInteger(builder, "spiderwebs", "The amount of times at a global rate this is ticked. 0 to turn it off.", "Spiderweb handling", 15, 0, 1000);
