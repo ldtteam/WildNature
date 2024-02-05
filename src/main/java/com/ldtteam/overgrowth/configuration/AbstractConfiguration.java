@@ -10,6 +10,8 @@ import java.util.function.Predicate;
 public abstract class AbstractConfiguration
 {
     private final static String INT_DEFAULT_KEY     = "[Default: %d, min: %d, max: %d]";
+    private final static String BOOL_DEFAULT_KEY     = "[Default: %s]";
+
 
     protected void createCategory(final Builder builder, final String key)
     {
@@ -35,5 +37,10 @@ public abstract class AbstractConfiguration
     protected static IntValue defineInteger(final Builder builder, final String key, final String comment, final String name, final int defaultValue, final int min, final int max)
     {
         return buildBase(builder, comment, name, String.format(INT_DEFAULT_KEY, defaultValue, min, max)).defineInRange(key, defaultValue, min, max);
+    }
+
+    protected static BooleanValue defineBoolean(final Builder builder, final String key, final String comment, final String name, final boolean def)
+    {
+        return buildBase(builder, comment, name, String.format(BOOL_DEFAULT_KEY, def)).define(key, def);
     }
 }

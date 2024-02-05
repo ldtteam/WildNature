@@ -22,7 +22,7 @@ public class Utils
      */
     public static BlockPos getWorldPos(final LevelChunk chunk, final int section, final BlockPos relativePos)
     {
-        return new BlockPos(chunk.getPos().getMinBlockX() + relativePos.getX(), chunk.getSectionYFromSectionIndex(section) + relativePos.getY(), chunk.getPos().getMinBlockZ() + relativePos.getZ());
+        return new BlockPos(chunk.getPos().getMinBlockX() + relativePos.getX(), chunk.getSectionYFromSectionIndex(section) * 16 + relativePos.getY(), chunk.getPos().getMinBlockZ() + relativePos.getZ());
     }
 
     /**
