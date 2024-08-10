@@ -3,7 +3,7 @@ package com.ldtteam.overgrowth.handlers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,5 +73,5 @@ public interface ITransformationHandler
      * Get the matching setting for this.
      * @return the setting.
      */
-    ForgeConfigSpec.IntValue getMatchingSetting();
+    ModConfigSpec.IntValue getMatchingSetting();
 }

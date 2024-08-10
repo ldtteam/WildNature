@@ -4,29 +4,13 @@ import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.common.ForgeConfigSpec;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import static net.minecraft.world.level.block.Block.UPDATE_ALL_IMMEDIATE;
-import static net.minecraft.world.level.block.Blocks.BROWN_MUSHROOM;
 
 /**
  * Distributes spiderwebs.
@@ -34,7 +18,7 @@ import static net.minecraft.world.level.block.Blocks.BROWN_MUSHROOM;
 public class SpiderWebs extends AbstractTransformationHandler
 {
     @Override
-    public ForgeConfigSpec.IntValue getMatchingSetting()
+    public ModConfigSpec.IntValue getMatchingSetting()
     {
         return Overgrowth.config.getServer().spiderwebs;
     }

@@ -4,10 +4,9 @@ import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 /**
  * Torch die.
@@ -15,7 +14,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 public class UndoPath extends AbstractTransformationHandler
 {
     @Override
-    public ForgeConfigSpec.IntValue getMatchingSetting()
+    public ModConfigSpec.IntValue getMatchingSetting()
     {
         return Overgrowth.config.getServer().byepath;
     }

@@ -1,6 +1,6 @@
 package com.ldtteam.overgrowth.configuration;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 /**
  * Mod server configuration. Loaded serverside, synced on connection.
@@ -11,33 +11,33 @@ public class ServerConfiguration extends AbstractConfiguration
      *  ------------------- ######## Main Settings ######## ------------------- *
      *  -------------------------------------------------------------------------------- */
 
-    public final ForgeConfigSpec.IntValue globalspeed;
-    public final ForgeConfigSpec.IntValue byetorch;
-    public final ForgeConfigSpec.IntValue coastdecline;
-    public final ForgeConfigSpec.IntValue lavadegration;
-    public final ForgeConfigSpec.IntValue farmlanddegration;
-    public final ForgeConfigSpec.IntValue mushrooms;
-    public final ForgeConfigSpec.IntValue growplants;
-    public final ForgeConfigSpec.IntValue underwaterplants;
-    public final ForgeConfigSpec.IntValue drylava;
-    public final ForgeConfigSpec.IntValue mossyblocks;
-    public final ForgeConfigSpec.IntValue drymud;
-    public final ForgeConfigSpec.IntValue spreadmud;
-    public final ForgeConfigSpec.IntValue byecampfire;
-    public final ForgeConfigSpec.IntValue anvilsand;
-    public final ForgeConfigSpec.IntValue spiderwebs;
-    public final ForgeConfigSpec.IntValue byepath;
-    public final ForgeConfigSpec.IntValue createpath;
-    public final ForgeConfigSpec.IntValue entityspawn;
-    public final ForgeConfigSpec.IntValue spreadnylium;
-    public final ForgeConfigSpec.BooleanValue caveentities;
+    public final ModConfigSpec.IntValue globalspeed;
+    public final ModConfigSpec.IntValue byetorch;
+    public final ModConfigSpec.IntValue coastdecline;
+    public final ModConfigSpec.IntValue lavadegration;
+    public final ModConfigSpec.IntValue farmlanddegration;
+    public final ModConfigSpec.IntValue mushrooms;
+    public final ModConfigSpec.IntValue growplants;
+    public final ModConfigSpec.IntValue underwaterplants;
+    public final ModConfigSpec.IntValue drylava;
+    public final ModConfigSpec.IntValue mossyblocks;
+    public final ModConfigSpec.IntValue drymud;
+    public final ModConfigSpec.IntValue spreadmud;
+    public final ModConfigSpec.IntValue byecampfire;
+    public final ModConfigSpec.IntValue anvilsand;
+    public final ModConfigSpec.IntValue spiderwebs;
+    public final ModConfigSpec.IntValue byepath;
+    public final ModConfigSpec.IntValue createpath;
+    public final ModConfigSpec.IntValue entityspawn;
+    public final ModConfigSpec.IntValue spreadnylium;
+    public final ModConfigSpec.BooleanValue caveentities;
 
     /**
      * Builds server configuration.
      *
      * @param builder config builder
      */
-    protected ServerConfiguration(final ForgeConfigSpec.Builder builder)
+    public ServerConfiguration(final ModConfigSpec.Builder builder)
     {
         createCategory(builder, "main");
 

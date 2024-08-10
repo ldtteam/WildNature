@@ -1,11 +1,8 @@
 package com.ldtteam.overgrowth.configuration;
 
-import com.ldtteam.overgrowth.Overgrowth;
-import net.minecraft.network.chat.Component;
-import net.minecraftforge.common.ForgeConfigSpec.*;
-
-import java.util.List;
-import java.util.function.Predicate;
+import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
+import net.neoforged.neoforge.common.ModConfigSpec.Builder;
+import net.neoforged.neoforge.common.ModConfigSpec.IntValue;
 
 public abstract class AbstractConfiguration
 {

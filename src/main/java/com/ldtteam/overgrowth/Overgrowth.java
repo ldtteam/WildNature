@@ -1,24 +1,19 @@
 package com.ldtteam.overgrowth;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.ldtteam.overgrowth.configuration.Configuration;
+import com.ldtteam.overgrowth.configuration.ServerConfiguration;
 import com.ldtteam.overgrowth.handlers.*;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
-import org.apache.commons.io.IOUtils;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.javafmlmod.FMLModContainer;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.NeoForge;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 @Mod("overgrowth")
 public class Overgrowth
@@ -33,9 +28,12 @@ public class Overgrowth
      */
     public static Configuration config;
 
-    public Overgrowth()
+    public Overgrowth(final FMLModContainer modContainer, final Dist dist)
     {
-        Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(this.getClass());
+        final IEventBus modBus = modContainer.getEventBus();
+        final IEventBus forgeBus = NeoForge.EVENT_BUS;
+        forgeBus.register(EntityHandling.class);
+
         ITransformationHandler.HANDLERS.add(new GrowPlantsOnGrass());
         ITransformationHandler.HANDLERS.add(new MossyBlocksDegradation());
         ITransformationHandler.HANDLERS.add(new GrowWaterPlants());
@@ -52,11 +50,11 @@ public class Overgrowth
         ITransformationHandler.HANDLERS.add(new MuddyRain());
         ITransformationHandler.HANDLERS.add(new MudDry());
         ITransformationHandler.HANDLERS.add(new NyliumSpread());
-
         ITransformationHandler.HANDLERS.add(new SpawnEntities());
 
-        config = new Configuration();
+        final Pair<ServerConfiguration, ModConfigSpec> ser = new ModConfigSpec.Builder().configure(ServerConfiguration::new);
+        modContainer.registerConfig(ModConfig.Type.SERVER, ser.getRight());
+        config = new Configuration(ser);
 
-        Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(EntityHandling.class);
     }
 }

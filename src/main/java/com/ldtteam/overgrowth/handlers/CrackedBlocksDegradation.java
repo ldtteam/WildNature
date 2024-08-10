@@ -8,8 +8,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +45,7 @@ public class CrackedBlocksDegradation extends AbstractTransformationHandler
     }
 
     @Override
-    public ForgeConfigSpec.IntValue getMatchingSetting()
+    public ModConfigSpec.IntValue getMatchingSetting()
     {
         return Overgrowth.config.getServer().lavadegration;
     }

@@ -4,23 +4,18 @@ import com.ldtteam.overgrowth.Overgrowth;
 import com.ldtteam.overgrowth.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.data.worldgen.features.VegetationFeatures;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.MushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import static net.minecraft.world.level.block.Block.UPDATE_ALL_IMMEDIATE;
-import static net.minecraft.world.level.block.Blocks.*;
+import static net.minecraft.world.level.block.Blocks.BROWN_MUSHROOM;
+import static net.minecraft.world.level.block.Blocks.RED_MUSHROOM;
 
 /**
  * Grow mushrooms next to humiditz
@@ -47,7 +42,7 @@ public class GrowMushrooms extends AbstractTransformationHandler
     }
 
     @Override
-    public ForgeConfigSpec.IntValue getMatchingSetting()
+    public ModConfigSpec.IntValue getMatchingSetting()
     {
         return Overgrowth.config.getServer().mushrooms;
     }
@@ -74,7 +69,7 @@ public class GrowMushrooms extends AbstractTransformationHandler
             final BlockPos worldPos = Utils.getWorldPos(chunk, chunkSection, relativePos.relative(direction).above());
             if (relativeState.isCollisionShapeFullBlock(chunk.getLevel(), worldPos.relative(direction))
                   && Utils.getBlockState(chunk, relativePos.relative(direction).above(), chunkSection).isAir()
-                  && BROWN_MUSHROOM.canSurvive(BROWN_MUSHROOM.defaultBlockState(), chunk.getLevel(), worldPos))
+                  && BROWN_MUSHROOM.defaultBlockState().canSurvive(chunk.getLevel(), worldPos))
             {
 
                 if (Math.random() > 0.5)

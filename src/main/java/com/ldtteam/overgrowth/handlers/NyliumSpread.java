@@ -7,8 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import static net.minecraft.world.level.block.Block.UPDATE_ALL_IMMEDIATE;
 
@@ -18,7 +17,7 @@ import static net.minecraft.world.level.block.Block.UPDATE_ALL_IMMEDIATE;
 public class NyliumSpread extends AbstractTransformationHandler
 {
     @Override
-    public ForgeConfigSpec.IntValue getMatchingSetting()
+    public ModConfigSpec.IntValue getMatchingSetting()
     {
         return Overgrowth.config.getServer().drymud;
     }

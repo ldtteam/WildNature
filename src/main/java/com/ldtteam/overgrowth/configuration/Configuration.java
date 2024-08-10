@@ -1,8 +1,6 @@
 package com.ldtteam.overgrowth.configuration;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
@@ -18,12 +16,8 @@ public class Configuration
     /**
      * Builds configuration tree.
      */
-    public Configuration()
+    public Configuration(final Pair<ServerConfiguration, ModConfigSpec> ser)
     {
-        final Pair<ServerConfiguration, ForgeConfigSpec> ser = new ForgeConfigSpec.Builder().configure(ServerConfiguration::new);
-
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ser.getRight());
-
         serverConfig = ser.getLeft();
     }
 

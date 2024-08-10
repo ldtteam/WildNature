@@ -5,16 +5,18 @@ import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.animal.Sheep;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class EntityHandling
 {
     /**
@@ -30,7 +32,7 @@ public class EntityHandling
     public static int cachedSetting = -1;
 
     @SubscribeEvent
-    public static void onEntityTick(final LivingEvent.LivingTickEvent event)
+    public static void onEntityTick(final EntityTickEvent.Pre event)
     {
         if (event.getEntity().level().isClientSide)
         {
@@ -76,7 +78,7 @@ public class EntityHandling
      * Handle this for a given blockstate.
      * @param defaultBlockState
      */
-    private static void handlePathForBlock(final BlockPos pos, final BlockState defaultBlockState, final LivingEvent.LivingTickEvent event)
+    private static void handlePathForBlock(final BlockPos pos, final BlockState defaultBlockState, final EntityTickEvent event)
     {
         final int result = positionMapping.addTo(pos, 1);
         boolean adjacentPath = false;
@@ -91,7 +93,7 @@ public class EntityHandling
         {
             final BlockState upState = Utils.getBlockState(event.getEntity().level(), pos.above());
             final Block upBlock = upState.getBlock();
-            if (upBlock instanceof SnowLayerBlock || upBlock == Blocks.GRASS || upBlock == Blocks.TALL_GRASS)
+            if (upBlock instanceof SnowLayerBlock || upBlock == Blocks.SHORT_GRASS || upBlock == Blocks.TALL_GRASS)
             {
                 event.getEntity().level().setBlock(pos.above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
             }

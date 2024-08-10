@@ -20,13 +20,13 @@ public abstract class ChunkTickMixin
      * Moving random value.
      */
     private int randValue = RandomSource.create().nextInt();
-    private static int cachedGlobalSpeed;
+    private static int cachedGlobalSpeed = -1;
 
     @Inject(method = "tickChunk", at = @At("HEAD"))
-    public void overgrowthTickChunk(final LevelChunk chunk, final int k, final CallbackInfo ci)
+    public void overgrowthTickChunk(final LevelChunk chunk, final int pRandomTickSpeed, final CallbackInfo ci)
     {
         int configValue = getCachedGlobalSpeed();
-        if (k <= 0 || chunk.getLevel().getGameTime() != 0 && chunk.getLevel().getRandom().nextInt(configValue) != 1)
+        if (pRandomTickSpeed <= 0 || chunk.getLevel().getGameTime() != 0 && chunk.getLevel().getRandom().nextInt(configValue)+1 != 1)
         {
             return;
         }
@@ -37,9 +37,9 @@ public abstract class ChunkTickMixin
         {
             LevelChunkSection levelchunksection = chunkSections[sectionId];
 
-            for (int times = 0; times < k; times++)
+            for (int times = 0; times < pRandomTickSpeed; times++)
             {
-                if (chunk.getLevel().getRandom().nextInt(configValue) == 1)
+                if (chunk.getLevel().getRandom().nextInt(configValue) + 1 == 1)
                 {
                     final BlockPos randomPos = this.overgrowthGetBlockRandomPos();
                     for (ITransformationHandler handler : ITransformationHandler.HANDLERS)
