@@ -37,20 +37,36 @@ public abstract class ChunkTickMixin
         {
             LevelChunkSection levelchunksection = chunkSections[sectionId];
 
+            if (levelchunksection.hasOnlyAir())
+            {
+                continue;
+            }
+
             for (int times = 0; times < pRandomTickSpeed; times++)
             {
                 if (chunk.getLevel().getRandom().nextInt(configValue) + 1 == 1)
                 {
-                    final BlockPos randomPos = this.overgrowthGetBlockRandomPos();
+                    this.randValue = this.randValue * 3 + 1013904223;
+                    int i = this.randValue >> 2;
+                    final int x = (i & 15);
+                    final int y = (i >> 16 & 15);
+                    final int z =(i >> 8 & 15);
+
+                    final BlockState randomState = levelchunksection.getBlockState(x, y, z);
+
+                    BlockPos blockPos = null;
                     for (ITransformationHandler handler : ITransformationHandler.HANDLERS)
                     {
-                        BlockState randomState = levelchunksection.getBlockState(randomPos.getX(), randomPos.getY(), randomPos.getZ());
-
                         if (handler.transforms(randomState) && handler.ready(chunk.getLevel().getGameTime() + times, chunk))
                         {
+                            if (blockPos == null)
+                            {
+                                blockPos = new BlockPos(x,y,z);
+                            }
+
                             try
                             {
-                                handler.transformBlock(randomPos, chunk, sectionId, randomState);
+                                handler.transformBlock(blockPos, chunk, sectionId, randomState);
                             }
                             catch (final Exception ex)
                             {
@@ -70,17 +86,5 @@ public abstract class ChunkTickMixin
             cachedGlobalSpeed = Overgrowth.config.getServer().globalspeed.get();
         }
         return cachedGlobalSpeed;
-    }
-
-    /**
-     * Calculate a pseudo-random block position based on vanilla.
-     *
-     * @return the random position.
-     */
-    private BlockPos overgrowthGetBlockRandomPos()
-    {
-        this.randValue = this.randValue * 3 + 1013904223;
-        int i = this.randValue >> 2;
-        return new BlockPos((i & 15), (i >> 16 & 15), (i >> 8 & 15));
     }
 }
